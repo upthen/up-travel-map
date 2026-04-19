@@ -167,6 +167,7 @@ function init() {
 	setupIntroAnimation()
 	setupThemeToggle()
 	setupMusicControl()
+	setupAccentPicker()
 	setupMap()
 	animateStats()
 	setupTimeline()
@@ -175,6 +176,7 @@ function init() {
 function loadSettings() {
 	const savedTheme = localStorage.getItem('theme')
 	const savedMuted = localStorage.getItem('muted')
+	const savedAccent = localStorage.getItem('accent')
 
 	if (savedTheme) {
 		document.documentElement.setAttribute('data-theme', savedTheme)
@@ -185,6 +187,18 @@ function loadSettings() {
 		document.documentElement.setAttribute('data-theme', 'dark')
 	}
 
+	if (savedAccent) {
+		document.documentElement.setAttribute('data-accent', savedAccent)
+		document.querySelectorAll('.accent-option').forEach((opt) => {
+			opt.classList.toggle(
+				'active',
+				opt.getAttribute('data-accent') === savedAccent
+			)
+		})
+	} else {
+		document.documentElement.setAttribute('data-accent', 'cinnabar')
+	}
+
 	if (savedMuted === 'true') {
 		isMuted = true
 		document.getElementById('music-toggle').classList.add('muted')
@@ -193,7 +207,9 @@ function loadSettings() {
 
 function saveSettings() {
 	const theme = document.documentElement.getAttribute('data-theme')
+	const accent = document.documentElement.getAttribute('data-accent')
 	localStorage.setItem('theme', theme || 'light')
+	localStorage.setItem('accent', accent || 'cinnabar')
 	localStorage.setItem('muted', isMuted)
 }
 
@@ -372,6 +388,36 @@ function playMusic() {
 		const bgMusic = document.getElementById('bg-music')
 		bgMusic.play().catch(() => {})
 	}
+}
+
+function setupAccentPicker() {
+	const toggle = document.getElementById('accent-toggle')
+	const panel = document.getElementById('accent-panel')
+	const options = document.querySelectorAll('.accent-option')
+
+	toggle.addEventListener('click', (e) => {
+		e.stopPropagation()
+		panel.classList.toggle('open')
+	})
+
+	options.forEach((option) => {
+		option.addEventListener('click', (e) => {
+			e.stopPropagation()
+			const accent = option.getAttribute('data-accent')
+			document.documentElement.setAttribute('data-accent', accent)
+			options.forEach((opt) => opt.classList.remove('active'))
+			option.classList.add('active')
+			saveSettings()
+		})
+	})
+
+	document.addEventListener('click', () => {
+		panel.classList.remove('open')
+	})
+
+	panel.addEventListener('click', (e) => {
+		e.stopPropagation()
+	})
 }
 
 function setupMap() {
