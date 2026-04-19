@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>家庭旅游相册 · 足迹中国</title>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=LXGW+WenKai:wght@300;400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="styles.css"
+		/>
+	</head>
+	<body>
+		<div id="app">
+			<div class="global-controls">
+				<button
+					id="theme-toggle"
+					class="control-btn"
+					title="切换主题"
+				>
+					<svg
+						class="icon-sun"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+					>
+						<circle
+							cx="12"
+							cy="12"
+							r="5"
+						/>
+						<line
+							x1="12"
+							y1="1"
+							x2="12"
+							y2="3"
+						/>
+						<line
+							x1="12"
+							y1="21"
+							x2="12"
+							y2="23"
+						/>
+						<line
+							x1="4.22"
+							y1="4.22"
+							x2="5.64"
+							y2="5.64"
+						/>
+						<line
+							x1="18.36"
+							y1="18.36"
+							x2="19.78"
+							y2="19.78"
+						/>
+						<line
+							x1="1"
+							y1="12"
+							x2="3"
+							y2="12"
+						/>
+						<line
+							x1="21"
+							y1="12"
+							x2="23"
+							y2="12"
+						/>
+						<line
+							x1="4.22"
+							y1="19.78"
+							x2="5.64"
+							y2="18.36"
+						/>
+						<line
+							x1="18.36"
+							y1="5.64"
+							x2="19.78"
+							y2="4.22"
+						/>
+					</svg>
+					<svg
+						class="icon-moon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+					>
+						<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+					</svg>
+				</button>
+				<button
+					id="music-toggle"
+					class="control-btn"
+					title="音乐控制"
+				>
+					<svg
+						class="icon-volume"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+					>
+						<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+						<path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+					</svg>
+					<svg
+						class="icon-mute"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+					>
+						<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+						<line
+							x1="23"
+							y1="9"
+							x2="17"
+							y2="15"
+						/>
+						<line
+							x1="17"
+							y1="9"
+							x2="23"
+							y2="15"
+						/>
+					</svg>
+				</button>
+			</div>
+
+			<div
+				id="intro-overlay"
+				class="intro-overlay"
+			>
+				<div
+					class="ink-canvas"
+					id="ink-canvas"
+				></div>
+				<div class="intro-content">
+					<div class="intro-slides">
+						<div
+							class="intro-slide active"
+							data-slide="0"
+						>
+							<div class="slide-seal">游</div>
+							<div
+								class="slide-value"
+								data-target="6"
+							>
+								0
+							</div>
+							<div class="slide-unit">年光阴</div>
+							<div class="slide-description">从 2017 到 2023 年</div>
+						</div>
+						<div
+							class="intro-slide"
+							data-slide="1"
+						>
+							<div class="slide-seal">迹</div>
+							<div
+								class="slide-value"
+								data-target="12"
+							>
+								0
+							</div>
+							<div class="slide-unit">座城市</div>
+							<div class="slide-description">已游览 12 个城市</div>
+						</div>
+						<div
+							class="intro-slide"
+							data-slide="2"
+						>
+							<div class="slide-seal">中</div>
+							<div
+								class="slide-value"
+								data-target="35"
+							>
+								0
+							</div>
+							<div class="slide-unit">% 覆盖</div>
+							<div class="slide-description">中国覆盖率</div>
+						</div>
+						<div
+							class="intro-slide"
+							data-slide="3"
+						>
+							<div class="slide-seal">忆</div>
+							<div
+								class="slide-value"
+								data-target="1286"
+							>
+								0
+							</div>
+							<div class="slide-unit">帧定格</div>
+							<div class="slide-description">游玩最久：北京（8天）</div>
+						</div>
+					</div>
+					<div class="slide-indicators">
+						<span
+							class="indicator active"
+							data-index="0"
+						></span>
+						<span
+							class="indicator"
+							data-index="1"
+						></span>
+						<span
+							class="indicator"
+							data-index="2"
+						></span>
+						<span
+							class="indicator"
+							data-index="3"
+						></span>
+					</div>
+					<div class="slide-hint">
+						<span class="hint-line"></span>
+						轻触继续
+						<span class="hint-line"></span>
+					</div>
+					<button
+						id="enter-btn"
+						class="enter-btn"
+					>
+						<span class="enter-btn-text">开启旅程</span>
+						<span class="enter-btn-icon">→</span>
+					</button>
+				</div>
+			</div>
+
+			<div
+				id="main-content"
+				class="main-content"
+			>
+				<header class="header">
+					<div class="header-content">
+						<div class="header-ornament"></div>
+						<h1 class="header-title">足迹中国</h1>
+						<p class="header-subtitle">家庭旅行相册</p>
+						<div class="header-ornament"></div>
+					</div>
+				</header>
+
+				<section class="stats-section">
+					<div class="stat-card">
+						<div class="stat-icon stat-icon--years">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+							>
+								<path
+									d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<div
+								class="stat-value"
+								data-target="6"
+							>
+								0
+							</div>
+							<div class="stat-label">年</div>
+							<div class="stat-highlight">从 2017 到 2023 年</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon stat-icon--cities">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+							>
+								<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+								<circle
+									cx="12"
+									cy="10"
+									r="3"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<div
+								class="stat-value"
+								data-target="12"
+							>
+								0
+							</div>
+							<div class="stat-label">个城市</div>
+							<div class="stat-highlight">已游览 12 个城市</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon stat-icon--coverage">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+							>
+								<path
+									d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
+								/>
+								<circle
+									cx="12"
+									cy="12"
+									r="10"
+								/>
+							</svg>
+						</div>
+						<div class="stat-content">
+							<div
+								class="stat-value"
+								data-target="35"
+							>
+								0
+							</div>
+							<div class="stat-label">%</div>
+							<div class="stat-highlight">中国覆盖率</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon stat-icon--photos">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.5"
+							>
+								<rect
+									x="3"
+									y="3"
+									width="18"
+									height="18"
+									rx="2"
+									ry="2"
+								/>
+								<circle
+									cx="8.5"
+									cy="8.5"
+									r="1.5"
+								/>
+								<polyline points="21 15 16 10 5 21" />
+							</svg>
+						</div>
+						<div class="stat-content">
+							<div
+								class="stat-value"
+								data-target="1286"
+							>
+								0
+							</div>
+							<div class="stat-label">张照片</div>
+							<div class="stat-highlight">照片最多：北京</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="main-section">
+					<div class="map-container">
+						<div class="map-header">
+							<span class="map-header-line"></span>
+							<span class="map-header-text">旅行地图</span>
+							<span class="map-header-line"></span>
+						</div>
+						<div class="map-wrapper">
+							<svg
+								id="china-map"
+								viewBox="0 0 800 600"
+								class="china-map"
+							>
+								<path
+									d="M200,150 L250,140 L300,150 L350,145 L400,140 L450,150 L500,145 L550,150 L600,140 L650,150 L700,145 L750,150 L750,200 L745,250 L750,300 L745,350 L750,400 L745,450 L750,500 L700,495 L650,500 L600,495 L550,500 L500,495 L450,500 L400,495 L350,500 L300,495 L250,500 L200,495 L150,500 L100,495 L50,500 L50,450 L55,400 L50,350 L55,300 L50,250 L55,200 L50,150 L100,145 L150,150 Z"
+									fill="currentColor"
+								/>
+							</svg>
+							<div
+								id="map-markers"
+								class="map-markers"
+							></div>
+						</div>
+					</div>
+					<div class="detail-panel">
+						<div
+							id="detail-empty"
+							class="detail-empty"
+						>
+							<div class="detail-empty-seal">选</div>
+							<p>请选择城市</p>
+						</div>
+						<div
+							id="detail-content"
+							class="detail-content"
+							style="display: none"
+						>
+							<div class="detail-photo">
+								<img
+									id="detail-image"
+									src=""
+									alt="城市照片"
+								/>
+								<div class="detail-photo-overlay"></div>
+							</div>
+							<div class="detail-info">
+								<h2
+									id="detail-name"
+									class="detail-name"
+								></h2>
+								<div class="detail-meta">
+									<div class="meta-item">
+										<svg
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.5"
+										>
+											<rect
+												x="3"
+												y="4"
+												width="18"
+												height="18"
+												rx="2"
+												ry="2"
+											/>
+											<line
+												x1="16"
+												y1="2"
+												x2="16"
+												y2="6"
+											/>
+											<line
+												x1="8"
+												y1="2"
+												x2="8"
+												y2="6"
+											/>
+											<line
+												x1="3"
+												y1="10"
+												x2="21"
+												y2="10"
+											/>
+										</svg>
+										<span id="detail-time"></span>
+									</div>
+									<div class="meta-item">
+										<svg
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.5"
+										>
+											<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+											<circle
+												cx="9"
+												cy="7"
+												r="4"
+											/>
+											<path
+												d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"
+											/>
+										</svg>
+										<span id="detail-companions"></span>
+									</div>
+								</div>
+								<p
+									id="detail-description"
+									class="detail-description"
+								></p>
+								<div class="detail-counter">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.5"
+									>
+										<rect
+											x="3"
+											y="3"
+											width="18"
+											height="18"
+											rx="2"
+											ry="2"
+										/>
+										<circle
+											cx="8.5"
+											cy="8.5"
+											r="1.5"
+										/>
+										<polyline points="21 15 16 10 5 21" />
+									</svg>
+									<span id="detail-photos"></span> 张照片
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="timeline-section">
+					<div class="timeline-header">
+						<span class="timeline-header-line"></span>
+						<h2 class="timeline-title">旅行时间线</h2>
+						<span class="timeline-header-line"></span>
+					</div>
+					<div
+						id="timeline"
+						class="timeline"
+					></div>
+				</section>
+
+				<footer class="footer">
+					<div class="footer-ornament">◆</div>
+					<div class="footer-content">
+						<p>© 2024 家庭旅游相册 · 足迹中国</p>
+						<p>墨韵山水 · 水墨旅行志</p>
+					</div>
+				</footer>
+			</div>
+		</div>
+
+		<audio
+			id="bg-music"
+			loop
+		>
+			<source
+				src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=relaxing-piano-music-27455.mp3"
+				type="audio/mpeg"
+			/>
+		</audio>
+
+		<script src="script.js"></script>
+	</body>
+</html>
