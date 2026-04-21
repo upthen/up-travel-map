@@ -465,6 +465,11 @@ function selectCity(city) {
 	document.getElementById('detail-description').textContent = city.description
 	document.getElementById('detail-photos').textContent = city.photoCount
 
+	const detailLink = document.getElementById('detail-link')
+	if (detailLink) {
+		detailLink.href = `detail.html?city=${city.id}`
+	}
+
 	detailContent.scrollTop = 0
 }
 
@@ -523,8 +528,7 @@ function setupTimeline() {
 	timeline.querySelectorAll('.timeline-city').forEach((el) => {
 		el.addEventListener('click', () => {
 			const cityId = parseInt(el.getAttribute('data-city-id'))
-			const city = cities.find((c) => c.id === cityId)
-			if (city) selectCity(city)
+			window.location.href = `detail.html?city=${cityId}`
 		})
 	})
 }

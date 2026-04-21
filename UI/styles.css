@@ -1063,6 +1063,40 @@ body {
 	height: 14px;
 }
 
+.detail-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 16px;
+	padding: 10px 24px;
+	font-family: var(--font-display);
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--ink-deep);
+	text-decoration: none;
+	letter-spacing: 2px;
+	border-radius: 40px;
+	background: var(--accent);
+	color: var(--paper);
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 4px 16px var(--accent-shadow);
+}
+
+.detail-link:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 24px var(--accent-shadow);
+}
+
+.detail-link svg {
+	width: 14px;
+	height: 14px;
+	transition: transform 0.3s ease;
+}
+
+.detail-link:hover svg {
+	transform: translateX(3px);
+}
+
 .timeline-section {
 	max-width: 1400px;
 	margin: 0 auto 48px;
