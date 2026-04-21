@@ -989,6 +989,12 @@ body {
 	padding: 24px 28px 28px;
 	flex: 1;
 	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.detail-info .detail-description {
+	flex: 1;
 }
 
 .detail-name {
@@ -1066,13 +1072,13 @@ body {
 .detail-link {
 	display: inline-flex;
 	align-items: center;
+	justify-content: center;
 	gap: 6px;
-	margin-top: 16px;
+	margin-top: 20px;
 	padding: 10px 24px;
 	font-family: var(--font-display);
 	font-size: 0.85rem;
 	font-weight: 600;
-	color: var(--ink-deep);
 	text-decoration: none;
 	letter-spacing: 2px;
 	border-radius: 40px;
@@ -1080,6 +1086,8 @@ body {
 	color: var(--paper);
 	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	box-shadow: 0 4px 16px var(--accent-shadow);
+	flex-shrink: 0;
+	align-self: flex-start;
 }
 
 .detail-link:hover {

@@ -256,8 +256,29 @@ let currentRecordPhotos = []
 let carouselIndex = 0
 let galleryMode = 'carousel'
 let autoPlayTimer = null
+let localPhotosLoaded = false
 
-function initDetail() {
+const PHOTO_API = 'http://localhost:8001'
+
+async function loadLocalPhotos(cityName) {
+	try {
+		const res = await fetch(
+			`${PHOTO_API}/api/photos?city=${encodeURIComponent(cityName)}`
+		)
+		if (!res.ok) return null
+		const data = await res.json()
+		if (data.photos && data.photos.length > 0) {
+			return data.photos.map(
+				(f) => `${PHOTO_API}${data.base}${encodeURIComponent(f)}`
+			)
+		}
+		return null
+	} catch {
+		return null
+	}
+}
+
+async function initDetail() {
 	const params = new URLSearchParams(window.location.search)
 	const cityId = parseInt(params.get('city'))
 
@@ -267,12 +288,41 @@ function initDetail() {
 	}
 
 	const city = cities.find((c) => c.id === cityId)
-	const records = cityRecords[cityId] || []
+	let records = cityRecords[cityId] || []
 
 	renderHero(city)
 	renderRecords(records)
 	setupLightbox()
 	setupGalleryModeToggle()
+
+	const localPhotos = await loadLocalPhotos(city.name)
+	if (localPhotos && localPhotos.length > 0) {
+		localPhotosLoaded = true
+		records = buildLocalRecords(localPhotos)
+		cityRecords[cityId] = records
+		renderRecords(records)
+
+		if (records.length === 1) {
+			showRecordDetail(records[0])
+		}
+	}
+}
+
+function buildLocalRecords(photos) {
+	const perRecord = 8
+	const records = []
+	for (let i = 0; i < photos.length; i += perRecord) {
+		const chunk = photos.slice(i, i + perRecord)
+		const idx = Math.floor(i / perRecord) + 1
+		const total = Math.ceil(photos.length / perRecord)
+		records.push({
+			title: total === 1 ? '三亚旅行相册' : `三亚旅行相册 (${idx}/${total})`,
+			date: '',
+			photos: chunk,
+			text: ''
+		})
+	}
+	return records
 }
 
 function renderHero(city) {
@@ -313,8 +363,25 @@ function renderRecords(records) {
 		card.style.animationDelay = `${index * 0.1}s`
 
 		const coverPhoto = record.photos[0] || ''
-		const paragraphs = record.text.split('\n').filter((p) => p.trim())
+		const paragraphs = (record.text || '').split('\n').filter((p) => p.trim())
 		const excerpt = paragraphs[0] || ''
+
+		let metaHtml = ''
+		if (record.date) {
+			metaHtml = `<div class="record-card-meta">
+				<span>${record.date}</span>
+				<span class="meta-dot">·</span>
+				<span>${record.photos.length} 张照片</span>
+			</div>`
+		} else {
+			metaHtml = `<div class="record-card-meta">
+				<span>${record.photos.length} 张照片</span>
+			</div>`
+		}
+
+		let excerptHtml = excerpt
+			? `<div class="record-card-excerpt">${excerpt}</div>`
+			: ''
 
 		card.innerHTML = `
 			<div class="record-card-badge">${record.photos.length} 张</div>
@@ -324,12 +391,8 @@ function renderRecords(records) {
 			</div>
 			<div class="record-card-body">
 				<div class="record-card-title">${record.title}</div>
-				<div class="record-card-meta">
-					<span>${record.date}</span>
-					<span class="meta-dot">·</span>
-					<span>${record.photos.length} 张照片</span>
-				</div>
-				<div class="record-card-excerpt">${excerpt}</div>
+				${metaHtml}
+				${excerptHtml}
 			</div>
 		`
 
@@ -518,6 +581,12 @@ function applyGalleryMode() {
 
 function renderText(text) {
 	const container = document.getElementById('record-text')
+	if (!text || !text.trim()) {
+		container.innerHTML = ''
+		container.style.display = 'none'
+		return
+	}
+	container.style.display = ''
 	const paragraphs = text.split('\n').filter((p) => p.trim())
 
 	container.innerHTML = `
